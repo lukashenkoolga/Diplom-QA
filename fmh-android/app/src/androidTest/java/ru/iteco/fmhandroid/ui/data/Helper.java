@@ -240,15 +240,6 @@ public class Helper {
 
         static final Random rand = new Random();
 
-        @SafeVarargs
-        public static int randomClaims(@NonNull int... items) {
-            return items[rand.nextInt(items.length)];
-        }
-
-        @SafeVarargs
-        public static int randomNews(@NonNull int... items) {
-            return items[rand.nextInt(items.length)];
-        }
 
         @SafeVarargs
         public static int random(@NonNull int... items) {
