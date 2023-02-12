@@ -48,14 +48,14 @@ public class NewsTest {
 
     @Before
     public void logoutCheck() {
-        SystemClock.sleep(8000);
         try {
-            newsSteps.isNewsScreen();
+            mainScreenSteps.checkMainScreenLoaded();
         } catch (NoMatchingViewException e) {
             authSteps.authWithValidData(Helper.authInfo());
             authSteps.clickSignInBtn();
             SystemClock.sleep(5000);
         } finally {
+            mainScreenSteps.checkMainScreenLoaded();
             mainScreenSteps.clickAllNews();
         }
     }
@@ -142,12 +142,12 @@ public class NewsTest {
         controlPanelSteps.openNewsFilterScreen();
         filterScreen.clickOnNotActiveCheckBox();
         filterScreen.clickFilter();
-        SystemClock.sleep(3000);
+        newsSteps.newsListLoaded();
         controlPanelSteps.checkActiveNewsStatus();
         controlPanelSteps.openNewsFilterScreen();
         filterScreen.clickOnActiveCheckBox();
         filterScreen.clickFilter();
-        SystemClock.sleep(3000);
+        newsSteps.newsListLoaded();
         controlPanelSteps.checkNotActiveNewsStatus();
     }
 
@@ -172,7 +172,6 @@ public class NewsTest {
         newsSteps.clickEditBtn();
         controlPanelSteps.openNewsFilterScreen();
         commonSteps.clickCancel();
-        SystemClock.sleep(3000);
         controlPanelSteps.isControlPanelScreen();
     }
 
@@ -242,15 +241,13 @@ public class NewsTest {
         controlPanelSteps.clickCreateNewsBtn();
         createNewsSteps.createNews(randomCategory(), resources.newsTitleCyr, resources.newsPublicationDate, resources.newsPublicationTime, resources.newsDescriptionCyr);
         commonSteps.clickSave();
-        SystemClock.sleep(2000);
+        newsSteps.newsListLoaded();
         controlPanelSteps.clickEditNews(position);
-        editNewsSteps.isEditNewsScreen();
-        editNewsSteps.editStatus(); // to "not active"
-        SystemClock.sleep(2000);
+        editNewsSteps.editStatus();
+        newsSteps.newsListLoaded();// to "not active"
         controlPanelSteps.checkNotActiveNewsStatus();
         controlPanelSteps.clickEditNews(position);
         editNewsSteps.editStatus(); // to "active"
-        SystemClock.sleep(2000);
         controlPanelSteps.checkActiveNewsStatus();
     }
 
@@ -265,7 +262,7 @@ public class NewsTest {
         controlPanelSteps.clickCreateNewsBtn();
         createNewsSteps.createNews(randomCategory(), resources.newsTitleCyr, resources.newsPublicationDate, resources.newsPublicationTime, resources.newsDescriptionCyr);
         commonSteps.clickSave();
-        SystemClock.sleep(2000);
+        newsSteps.newsListLoaded();
         controlPanelSteps.clickEditNews(position);
         editNewsSteps.isEditNewsScreen();
         editNewsSteps.editTitle(newTitle);
@@ -288,7 +285,7 @@ public class NewsTest {
         controlPanelSteps.clickCreateNewsBtn();
         createNewsSteps.createNews(randomCategory(), resources.newsTitleCyr, resources.newsPublicationDate, resources.newsPublicationTime, resources.newsDescriptionCyr);
         commonSteps.clickSave();
-        SystemClock.sleep(2000);
+        newsSteps.newsListLoaded();
         controlPanelSteps.clickEditNews(position);
         editNewsSteps.isEditNewsScreen();
         editNewsSteps.editTitle(newTitle);
@@ -307,10 +304,10 @@ public class NewsTest {
         controlPanelSteps.clickCreateNewsBtn();
         createNewsSteps.createNews(randomCategory(), title, resources.newsPublicationDate, resources.newsPublicationTime, resources.newsDescriptionCyr);
         commonSteps.clickSave();
-        SystemClock.sleep(2000);
+        newsSteps.newsListLoaded();
         controlPanelSteps.deleteNews("Удаленная новость");
         controlPanelSteps.confirmDeleting();
-        SystemClock.sleep(2000);
+        newsSteps.newsListLoaded();
         controlPanelSteps.isControlPanelScreen();
     }
 }

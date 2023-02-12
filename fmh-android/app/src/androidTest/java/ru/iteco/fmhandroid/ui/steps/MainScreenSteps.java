@@ -1,17 +1,28 @@
 package ru.iteco.fmhandroid.ui.steps;
 
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
+
+import static ru.iteco.fmhandroid.ui.data.Helper.elementWaiting;
+import static ru.iteco.fmhandroid.ui.data.Helper.waitForElement;
 
 import android.os.SystemClock;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.MainScreenElements;
+import ru.iteco.fmhandroid.ui.screenElements.MainScreenElements;
 
 public class MainScreenSteps {
     MainScreenElements mainScreenElements = new MainScreenElements();
+
+    public void checkMainScreenLoaded() {
+        Allure.step("Загрузка страницы");
+        elementWaiting(withText("all claims"), 10000);
+    }
 
     public void isMainScreen() {
         Allure.step("Проверка элементов экрана Main");
@@ -85,7 +96,7 @@ public class MainScreenSteps {
         Allure.step("Кликнуть кнопку выхода");
         mainScreenElements.logOutBtn.check(matches(isDisplayed()));
         mainScreenElements.logOutBtn.perform(click());
-        SystemClock.sleep(3000);
+        onView(isRoot()).perform(waitForElement(withText("Log out"), 1000));
         mainScreenElements.logOut.check(matches(isDisplayed()));
         mainScreenElements.logOut.perform(click());
     }

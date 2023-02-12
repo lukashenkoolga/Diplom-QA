@@ -6,7 +6,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.CreateNewsScreen;
+import ru.iteco.fmhandroid.ui.screenElements.CreateNewsScreen;
 
 public class CreateNewsSteps {
     CreateNewsScreen createNewsScreen = new CreateNewsScreen();

@@ -1,4 +1,4 @@
-package ru.iteco.fmhandroid.ui.ScreenElements;
+package ru.iteco.fmhandroid.ui.screenElements;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.withHint;

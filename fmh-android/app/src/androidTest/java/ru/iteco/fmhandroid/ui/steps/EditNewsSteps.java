@@ -8,7 +8,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import android.os.SystemClock;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.EditNewsScreen;
+import ru.iteco.fmhandroid.ui.screenElements.EditNewsScreen;
 
 public class EditNewsSteps {
     EditNewsScreen editNewsScreen = new EditNewsScreen();
@@ -16,7 +16,6 @@ public class EditNewsSteps {
 
     public void isEditNewsScreen() {
         Allure.step("Проверка элементов экрана News");
-        SystemClock.sleep(3000);
         editNewsScreen.editingNewsScreenName.check(matches(isDisplayed()));
         editNewsScreen.editCategoryField.check(matches(isDisplayed()));
         editNewsScreen.editTitleField.check(matches(isDisplayed()));

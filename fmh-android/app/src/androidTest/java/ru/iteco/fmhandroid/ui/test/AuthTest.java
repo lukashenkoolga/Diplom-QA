@@ -2,12 +2,8 @@ package ru.iteco.fmhandroid.ui.test;
 
 import static ru.iteco.fmhandroid.ui.data.Helper.authInfo;
 
-import android.os.SystemClock;
-
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.rule.ActivityTestRule;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,46 +29,42 @@ public class AuthTest {
 
     @Before
     public void logoutCheck() {
-        SystemClock.sleep(5000);
         try {
+            authSteps.checkAuthPageLoaded();
             authSteps.isAuthScreen();
-        } catch (NoMatchingViewException e) {
+        } catch (Exception e) {
             mainScreenSteps.clickLogOutBtn();
+            authSteps.checkAuthPageLoaded();
         }
-        }
-
-        @After
-        public void setUp () {
-            SystemClock.sleep(3000);
-        }
-
-        @Test
-        @DisplayName("Авторизация и выход ")
-        @Description("Пользователь авторизуется с валидными данными и выходит из приложения с помощью кнопки Log out")
-        public void shouldLogInAndLogOut() {
-            authSteps.authWithValidData(authInfo());
-            authSteps.clickSignInBtn();
-            SystemClock.sleep(3000);
-            mainScreenSteps.isMainScreen();
-            mainScreenSteps.clickLogOutBtn();
-            authSteps.isAuthScreen();
     }
 
-        @Test
-        @DisplayName("Проверка элементов экрана авторизации")
-        @Description("Корректность отображения всех элементов экрана Авторизация")
-        public void shouldCheckAuthScreenElements () {
-            authSteps.isAuthScreen();
-        }
 
-        @Test
-        @DisplayName("Вход с валидными данными")
-        public void shouldLogInWithValidData () {
-            authSteps.authWithValidData(authInfo());
-            authSteps.clickSignInBtn();
-            SystemClock.sleep(3000);
-            mainScreenSteps.isMainScreen();
-        }
+    @Test
+    @DisplayName("Авторизация и выход ")
+    @Description("Пользователь авторизуется с валидными данными и выходит из приложения с помощью кнопки Log out")
+    public void shouldLogInAndLogOut() {
+        authSteps.authWithValidData(authInfo());
+        authSteps.clickSignInBtn();
+        mainScreenSteps.checkMainScreenLoaded();
+        mainScreenSteps.isMainScreen();
+        mainScreenSteps.clickLogOutBtn();
+        authSteps.isAuthScreen();
+    }
 
+    @Test
+    @DisplayName("Проверка элементов экрана авторизации")
+    @Description("Корректность отображения всех элементов экрана Авторизация")
+    public void shouldCheckAuthScreenElements() {
+        authSteps.isAuthScreen();
+    }
+
+    @Test
+    @DisplayName("Вход с валидными данными")
+    public void shouldLogInWithValidData() {
+        authSteps.authWithValidData(authInfo());
+        authSteps.clickSignInBtn();
+        mainScreenSteps.checkMainScreenLoaded();
+        mainScreenSteps.isMainScreen();
+    }
 
 }

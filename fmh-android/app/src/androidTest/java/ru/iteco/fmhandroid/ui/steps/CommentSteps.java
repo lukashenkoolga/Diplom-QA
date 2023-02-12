@@ -6,8 +6,8 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.CommentScreen;
-import ru.iteco.fmhandroid.ui.ScreenElements.CommonElements;
+import ru.iteco.fmhandroid.ui.screenElements.CommentScreen;
+import ru.iteco.fmhandroid.ui.screenElements.CommonElements;
 
 public class CommentSteps {
     CommentScreen commentScreen = new CommentScreen();

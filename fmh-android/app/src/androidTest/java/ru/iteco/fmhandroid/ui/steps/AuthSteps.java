@@ -4,13 +4,22 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import static ru.iteco.fmhandroid.ui.data.Helper.elementWaiting;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.AuthScreenElements;
+import ru.iteco.fmhandroid.R;
 import ru.iteco.fmhandroid.ui.data.Helper;
+import ru.iteco.fmhandroid.ui.screenElements.AuthScreenElements;
 
 public class AuthSteps {
     AuthScreenElements authScreenElements = new AuthScreenElements();
+
+    public void checkAuthPageLoaded() {
+        Allure.step("Загрузка страницы авторизации");
+        elementWaiting(withId(R.id.enter_button), 8000);
+    }
 
     public void isAuthScreen() {
         Allure.step("Проверка элементов экрана авторизации");
@@ -20,7 +29,7 @@ public class AuthSteps {
         authScreenElements.signBtn.check(matches(isDisplayed()));
     }
 
-    public void authWithValidData (Helper.AuthInfo info) {
+    public void authWithValidData(Helper.AuthInfo info) {
         Allure.step("Авторизация с валидными данными");
         isAuthScreen();
         authScreenElements.loginField.perform(replaceText(info.getLogin()));
@@ -31,8 +40,6 @@ public class AuthSteps {
         Allure.step("Нажать кнопку Sign in");
         authScreenElements.signBtn.perform(click());
     }
-
-
 
 
 }

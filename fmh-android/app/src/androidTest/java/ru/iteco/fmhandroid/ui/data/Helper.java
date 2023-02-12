@@ -1,7 +1,9 @@
 package ru.iteco.fmhandroid.ui.data;
 
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 
 import android.os.IBinder;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.Root;
 import androidx.test.espresso.UiController;
@@ -21,6 +24,7 @@ import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
+import androidx.test.espresso.util.TreeIterables;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -32,6 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.TimeoutException;
 
 public class Helper {
     public Helper() {
@@ -61,35 +66,6 @@ public class Helper {
         return new AuthInfo(login, pass);
     }
 
-    public static AuthInfo invalidAuthData() {
-        String pass = "invalid";
-        String login = "invalid";
-        return new AuthInfo(login, pass);
-    }
-
-    public static AuthInfo invalidLoginData() {
-        String pass = "password2";
-        String login = "invalid";
-        return new AuthInfo(login, pass);
-    }
-
-    public static AuthInfo invalidPassData() {
-        String pass = "invalid";
-        String login = "login2";
-        return new AuthInfo(login, pass);
-    }
-
-    public static AuthInfo emptyLogin() {
-        String pass = "password2";
-        String login = "";
-        return new AuthInfo(login, pass);
-    }
-
-    public static AuthInfo emptyPassword() {
-        String pass = "";
-        String login = "login2";
-        return new AuthInfo(login, pass);
-    }
 
     public static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
@@ -184,33 +160,6 @@ public class Helper {
         };
     }
 
-    public static class TextHelpers {
-        public static String getText(ViewInteraction matcher) {
-            final String[] text = new String[1];
-            ViewAction va = new ViewAction() {
-
-                @Override
-                public Matcher<View> getConstraints() {
-                    return isAssignableFrom(TextView.class);
-                }
-
-                @Override
-                public String getDescription() {
-                    return "Text of the view";
-                }
-
-                @Override
-                public void perform(UiController uiController, View view) {
-                    TextView tv = (TextView) view;
-                    text[0] = tv.getText().toString();
-                }
-            };
-
-            matcher.perform(va);
-
-            return text[0];
-        }
-    }
 
     private static View findFirstParentLayoutOfClass(View view) {
         ViewParent parent = new FrameLayout(view.getContext());
@@ -335,5 +284,74 @@ public class Helper {
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return dateFormat.format(currentDate);
+    }
+
+    public static ViewAction waitForElement(final Matcher matcher, final long millis) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return isRoot();
+            }
+
+            @Override
+            public String getDescription() {
+                return "wait for a specific view with attribute <" + matcher + "> during " + millis + " millis.";
+            }
+
+            @Override
+            public void perform(final UiController uiController, final View view) {
+                uiController.loopMainThreadUntilIdle();
+                final long startTime = System.currentTimeMillis();
+                final long endTime = startTime + millis;
+                final Matcher<View> viewMatcher = matcher;
+
+                do {
+                    for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+                        try { // found view with required ID
+                            if (viewMatcher.matches(child)) {
+                                return;
+                            }
+                        } catch (NoMatchingViewException e) {
+                            // ignore
+                        }
+
+                        uiController.loopMainThreadForAtLeast(50);
+                    }
+
+                }
+                while (System.currentTimeMillis() < endTime);
+
+                // timeout happens
+                throw new PerformException.Builder()
+                        .withActionDescription(this.getDescription())
+                        .withViewDescription(HumanReadables.describe(view))
+                        .withCause(new TimeoutException())
+                        .build();
+            }
+        };
+
+    }
+
+    public static void elementWaiting(Matcher matcher, int millis) {
+        onView(isRoot()).perform(waitForElement(matcher, millis));
+    }
+
+    public static ViewAction waitFor(final long millis) {
+        return new ViewAction() {
+            @Override
+            public Matcher<View> getConstraints() {
+                return isRoot();
+            }
+
+            @Override
+            public String getDescription() {
+                return "Wait for " + millis + " milliseconds.";
+            }
+
+            @Override
+            public void perform(UiController uiController, final View view) {
+                uiController.loopMainThreadForAtLeast(millis);
+            }
+        };
     }
 }

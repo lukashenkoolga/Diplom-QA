@@ -10,7 +10,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.OurMissionScreen;
+import ru.iteco.fmhandroid.ui.screenElements.OurMissionScreen;
 
 public class OurMissionSteps {
     OurMissionScreen ourMissionScreen = new OurMissionScreen();

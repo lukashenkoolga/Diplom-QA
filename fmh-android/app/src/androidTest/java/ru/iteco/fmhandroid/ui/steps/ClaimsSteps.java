@@ -7,15 +7,16 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
+import static ru.iteco.fmhandroid.ui.data.Helper.elementWaiting;
 import static ru.iteco.fmhandroid.ui.data.Helper.nestedScrollTo;
 
 import android.os.SystemClock;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.ScreenElements.ClaimsScreen;
-import ru.iteco.fmhandroid.ui.ScreenElements.FilterClaimsWindow;
 import ru.iteco.fmhandroid.ui.data.Helper;
+import ru.iteco.fmhandroid.ui.screenElements.ClaimsScreen;
+import ru.iteco.fmhandroid.ui.screenElements.FilterClaimsWindow;
 
 public class ClaimsSteps {
     ClaimsScreen claimsScreen = new ClaimsScreen();
@@ -44,6 +45,7 @@ public class ClaimsSteps {
     public void openClaimIndex(int index) {
         Allure.step("Развернуть претензию");
         claimsScreen.claimList(index).perform(click());
+        elementWaiting(withId(R.id.status_icon_image_view), 10000);
     }
 
     public void clickInProgress() {
@@ -156,6 +158,16 @@ public class ClaimsSteps {
         claimsScreen.timeCreated.check(matches(isDisplayed()));
     }
 
+    public void claimFullyOpened() {
+        Allure.step("Загрузка всех элементов претензии");
+        elementWaiting(withId(R.id.status_processing_image_button), 10000);
+    }
+
+    public void claimsListLoaded() {
+        Allure.step("Загрузка списка претензий");
+        elementWaiting(withId(R.id.claim_list_recycler_view), 10000);
+    }
+
     public void checkClaimStatus(String status) {
         Allure.step("Проверка статус претензии");
         String claimStatus = Helper.Text.getText(onView(withId(R.id.status_label_text_view)));
@@ -182,9 +194,26 @@ public class ClaimsSteps {
         return Helper.Text.getText(onView(withId(R.id.plan_time_text_view)));
     }
 
+    public String getClaimDate() {
+        Allure.step("Получить дату создания претензии");
+        return Helper.Text.getText(onView(withId(R.id.plane_date_text_view)));
+    }
+
     public void addCommentWhenStatusChange(String comment) {
         Allure.step("Добавить комментарий при изменении статуса претензии");
         claimsScreen.statusChangingComment.perform(replaceText(comment));
+    }
+
+    public void checkCreatedClaimElement(String title, String description, String date, String time) {
+        assertEquals(title, getClaimTitle());
+        assertEquals(description, getClaimDescription());
+        assertEquals(date, getClaimDate());
+        assertEquals(time, getClaimTime());
+    }
+
+    public void emptyScreenShown() {
+        Allure.step("Загрузка пустого экрана");
+        elementWaiting(withId(R.id.empty_claim_list_image_view), 10000);
     }
 
 }

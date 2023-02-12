@@ -7,14 +7,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import android.os.SystemClock;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.EditClaimsScreen;
+import ru.iteco.fmhandroid.ui.screenElements.EditClaimsScreen;
 
 public class EditClaimSteps {
     EditClaimsScreen editClaimsScreen = new EditClaimsScreen();
 
     public void isEditClaimScreen() {
         Allure.step("Проверка элементов экрана Edit Claim");
-        SystemClock.sleep(3000);
         editClaimsScreen.editClaimScreenName.check(matches(isDisplayed()));
     }
 

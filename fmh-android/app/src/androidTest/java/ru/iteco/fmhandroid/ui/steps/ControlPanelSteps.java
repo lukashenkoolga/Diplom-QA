@@ -13,8 +13,8 @@ import android.os.SystemClock;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.ScreenElements.CommonElements;
-import ru.iteco.fmhandroid.ui.ScreenElements.ControlPanelScreen;
+import ru.iteco.fmhandroid.ui.screenElements.CommonElements;
+import ru.iteco.fmhandroid.ui.screenElements.ControlPanelScreen;
 import ru.iteco.fmhandroid.ui.data.Helper;
 
 public class ControlPanelSteps {

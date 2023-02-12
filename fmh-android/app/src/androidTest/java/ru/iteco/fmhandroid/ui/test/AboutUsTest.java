@@ -1,8 +1,5 @@
 package ru.iteco.fmhandroid.ui.test;
 
-import android.os.SystemClock;
-
-import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.rule.ActivityTestRule;
 
 import org.junit.Before;
@@ -18,14 +15,12 @@ import ru.iteco.fmhandroid.ui.data.Helper;
 import ru.iteco.fmhandroid.ui.steps.AboutUsSteps;
 import ru.iteco.fmhandroid.ui.steps.AuthSteps;
 import ru.iteco.fmhandroid.ui.steps.MainScreenSteps;
-import ru.iteco.fmhandroid.ui.steps.NewsSteps;
 
 @RunWith(AllureAndroidJUnit4.class)
 public class AboutUsTest {
     AuthSteps authSteps = new AuthSteps();
     AboutUsSteps aboutUsSteps = new AboutUsSteps();
     MainScreenSteps mainScreenSteps = new MainScreenSteps();
-    NewsSteps newsSteps = new NewsSteps();
 
     @Rule
     public ActivityTestRule<AppActivity> activityTestRule =
@@ -33,14 +28,13 @@ public class AboutUsTest {
 
     @Before
     public void logoutCheck() {
-        SystemClock.sleep(8000);
         try {
-            newsSteps.isNewsScreen();
-        } catch (NoMatchingViewException e) {
+            mainScreenSteps.checkMainScreenLoaded();
+        } catch (Exception e) {
             authSteps.authWithValidData(Helper.authInfo());
             authSteps.clickSignInBtn();
-            SystemClock.sleep(5000);
         } finally {
+            mainScreenSteps.checkMainScreenLoaded();
             mainScreenSteps.goToAboutScreen();
         }
     }

@@ -4,13 +4,13 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNot.not;
-
-import android.os.SystemClock;
+import static ru.iteco.fmhandroid.ui.data.Helper.elementWaiting;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.CommonElements;
-import ru.iteco.fmhandroid.ui.ScreenElements.TimeScreen;
+import ru.iteco.fmhandroid.ui.screenElements.CommonElements;
+import ru.iteco.fmhandroid.ui.screenElements.TimeScreen;
 
 public class CommonSteps {
     CommonElements commonElements = new CommonElements();
@@ -68,11 +68,11 @@ public class CommonSteps {
         timeScreen.inputHour.perform(replaceText(hour));
         timeScreen.inputMinute.perform(replaceText(minute));
         clickOkBtn();
-        SystemClock.sleep(2000);
     }
 
     public void checkWrongTimeError() {
         Allure.step("Проверка предупреждения о невалидном значении времени");
+        elementWaiting(withText("Enter a valid time"), 10000);
         commonElements.wrongTimeError.check(matches(isDisplayed()));
     }
 

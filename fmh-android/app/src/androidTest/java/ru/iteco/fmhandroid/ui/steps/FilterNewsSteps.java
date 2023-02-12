@@ -10,8 +10,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.AdvancedNewsFilterScreen;
-import ru.iteco.fmhandroid.ui.ScreenElements.FilterNewsScreen;
+import ru.iteco.fmhandroid.ui.screenElements.AdvancedNewsFilterScreen;
+import ru.iteco.fmhandroid.ui.screenElements.FilterNewsScreen;
 
 public class FilterNewsSteps {
     FilterNewsScreen filterNewsScreen = new FilterNewsScreen();

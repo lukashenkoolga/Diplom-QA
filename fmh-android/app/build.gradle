@@ -8,6 +8,10 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.crashlytics'
 }
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 
 android {
     compileSdkVersion 33
@@ -21,6 +25,7 @@ android {
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "io.qameta.allure.android.runners.AllureAndroidJUnitRunner"
     }
 
     compileOptions {

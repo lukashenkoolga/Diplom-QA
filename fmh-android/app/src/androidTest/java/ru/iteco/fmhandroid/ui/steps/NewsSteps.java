@@ -7,11 +7,12 @@ import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtP
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.junit.Assert.assertEquals;
+import static ru.iteco.fmhandroid.ui.data.Helper.elementWaiting;
 import static ru.iteco.fmhandroid.ui.data.Helper.withIndex;
 
 import io.qameta.allure.kotlin.Allure;
 import ru.iteco.fmhandroid.R;
-import ru.iteco.fmhandroid.ui.ScreenElements.NewsScreen;
+import ru.iteco.fmhandroid.ui.screenElements.NewsScreen;
 import ru.iteco.fmhandroid.ui.data.Helper;
 import ru.iteco.fmhandroid.ui.data.Resources;
 
@@ -19,6 +20,11 @@ public class NewsSteps {
 
     NewsScreen newsScreen = new NewsScreen();
     Resources resources = new Resources();
+
+    public void newsListLoaded() {
+        Allure.step("Дождаться загрузки списка новостей");
+        elementWaiting(withId(R.id.news_list_recycler_view), 10000);
+    }
 
     public void isNewsScreen() {
         Allure.step("Проверка элементов экрана News");

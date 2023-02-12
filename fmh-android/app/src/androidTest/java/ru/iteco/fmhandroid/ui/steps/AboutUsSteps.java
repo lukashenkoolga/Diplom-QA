@@ -6,7 +6,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 import io.qameta.allure.kotlin.Allure;
-import ru.iteco.fmhandroid.ui.ScreenElements.AboutUsScreen;
+import ru.iteco.fmhandroid.ui.screenElements.AboutUsScreen;
 
 public class AboutUsSteps {
     AboutUsScreen aboutUsScreen = new AboutUsScreen();
